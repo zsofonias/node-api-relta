@@ -6,7 +6,7 @@ const RealEstatesController = require('../controllers/RealEstatesController');
 
 router
   .route('/')
-  .get(RealEstatesController.getAllRealEstate)
+  .get(RealEstatesController.getAllRealEstates)
   .post(RealEstatesController.createRealEstate);
 
 router

@@ -13,7 +13,7 @@ const safe_query_params = [
   'realtor'
 ];
 
-const getAllRealEstate = crudFactory.getAll(RealEstate, safe_query_params);
+const getAllRealEstates = crudFactory.getAll(RealEstate, safe_query_params);
 
 const createRealEstate = crudFactory.createOne(RealEstate);
 
@@ -24,7 +24,7 @@ const updateRealEstate = crudFactory.updateOne(RealEstate);
 const deleteRealEstate = crudFactory.deleteOne(RealEstate);
 
 module.exports = {
-  getAllRealEstate: getAllRealEstate,
+  getAllRealEstates: getAllRealEstates,
   createRealEstate: createRealEstate,
   getRealEstate: getRealEstate,
   updateRealEstate: updateRealEstate,

@@ -12,9 +12,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const realEstate_router = require('./routes/realEstate_router');
+const realEstates_router = require('./routes/realEstates_router');
+const users_router = require('./routes/users_router');
 
-app.use('/api/v1/real-estates', realEstate_router);
+app.use('/api/v1/real-estates', realEstates_router);
+app.use('/api/v1/users', users_router);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Resource Not Found on ${req.url}`, 404));
