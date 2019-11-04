@@ -2,17 +2,17 @@ const express = require('express');
 
 const router = express.Router();
 
-const RealEstateController = require('../controllers/RealEstateController');
+const RealEstatesController = require('../controllers/RealEstatesController');
 
 router
   .route('/')
-  .get(RealEstateController.getAllRealEstate)
-  .post(RealEstateController.createRealEstate);
+  .get(RealEstatesController.getAllRealEstate)
+  .post(RealEstatesController.createRealEstate);
 
 router
   .route('/:id')
-  .get(RealEstateController.getRealEstate)
-  .patch(RealEstateController.updateRealEstate)
-  .delete(RealEstateController.deleteRealEstate);
+  .get(RealEstatesController.getRealEstate)
+  .patch(RealEstatesController.updateRealEstate)
+  .delete(RealEstatesController.deleteRealEstate);
 
 module.exports = router;
