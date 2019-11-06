@@ -65,7 +65,20 @@ const activateUser = catchAsync(async (req, res, next) => {
   sendResWithToken(user, 200, res);
 });
 
+const loginUser = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new AppError('User email and password are required', 400));
+  }
+  const user = await User.findOne({ email }).select('+password');
+  if (!user || !(await user.verifyPassword(password, user.password))) {
+    return next(new AppError('Incorrect Email or Password', 400));
+  }
+  sendResWithToken(user, 200, res);
+});
+
 module.exports = {
   registerUser: registerUser,
-  activateUser: activateUser
+  activateUser: activateUser,
+  loginUser: loginUser
 };

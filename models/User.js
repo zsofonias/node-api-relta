@@ -23,7 +23,8 @@ const UserSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     unique: true,
-    required: [true, 'User Phone number is required']
+    required: [true, 'User Phone number is required'],
+    validate: [validator.isMobilePhone, 'Valid User Phone-number is required']
   },
   role: {
     type: String,
@@ -83,6 +84,26 @@ UserSchema.methods.createAccountActivationToken = function() {
     .digest('hex');
   this.accountActivationExpires = Date.now() + 10 * 60 * 1000;
   return activationToken;
+};
+
+// method to verify user password with the hashed one in the db
+UserSchema.methods.verifyPassword = async function(
+  inputedPassword,
+  userPassword
+) {
+  return await bcrypt.compare(inputedPassword, userPassword);
+};
+
+// method to check if password was changed after token was issued
+UserSchema.methods.isPasswordChanged = function(jwtTokenTimeStamp) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return jwtTokenTimeStamp < changedTimeStamp;
+  }
+  return false;
 };
 
 module.exports = mongoose.model('User', UserSchema);
