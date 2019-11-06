@@ -1,3 +1,6 @@
+const crypto = require('crypto');
+
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const validator = require('validator');
 
@@ -19,6 +22,7 @@ const UserSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: String,
+    unique: true,
     required: [true, 'User Phone number is required']
   },
   role: {
@@ -61,5 +65,24 @@ const UserSchema = new mongoose.Schema({
   accountActivationToken: String,
   accountActivationExpires: Date
 });
+
+// model middleware to hash password upon createing new user or updating user password
+UserSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.confirmPassword = undefined;
+  next();
+});
+
+// method to create account actiavtion token
+UserSchema.methods.createAccountActivationToken = function() {
+  const activationToken = crypto.randomBytes(32).toString('hex');
+  this.accountActivationToken = crypto
+    .createHash('sha256')
+    .update(activationToken)
+    .digest('hex');
+  this.accountActivationExpires = Date.now() + 10 * 60 * 1000;
+  return activationToken;
+};
 
 module.exports = mongoose.model('User', UserSchema);

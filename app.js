@@ -1,9 +1,12 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const AppError = require('./utils/AppError');
 const ErrorsController = require('./controllers/ErrorsController');
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(express.json({ limit: '10kb' }));
 
