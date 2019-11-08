@@ -84,7 +84,7 @@ const deleteOne = Model =>
     }
     return res.status(200).json({
       status: 'success',
-      requestTime: reqTime,
+      requestTime: req.reqTime,
       data: {
         deleted
       }

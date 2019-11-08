@@ -11,6 +11,13 @@ router.post('/register', AuthController.registerUser);
 router.get('/activate-account/:token', AuthController.activateUser);
 router.post('/login', AuthController.loginUser);
 
+router.post('/forget-password', AuthController.forgetPassword);
+router.post('/reset-password/:token', AuthController.resetPassword);
+router.post(
+  '/resend-account-activation-token',
+  AuthController.resendAccountActivationToken
+);
+
 router.use(AuthMiddlewares.protect);
 
 // admin routes
